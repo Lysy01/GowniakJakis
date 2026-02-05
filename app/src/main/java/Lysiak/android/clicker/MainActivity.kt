@@ -24,15 +24,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -47,7 +50,11 @@ class MainActivity : ComponentActivity() {
 }
 @Composable
 fun MyFirstClicker() {
-    var clickable by remember { mutableStateOf(0) }
+    var number: MutableState<Int> = remember { mutableStateOf(0) }
+    var multiplier by remember { mutableStateOf(1) }
+    var isBought by remember { mutableStateOf(false) }
+
+
     Box(modifier = Modifier
         .padding(WindowInsets.statusBars.asPaddingValues())
         .fillMaxSize()
@@ -55,8 +62,10 @@ fun MyFirstClicker() {
 
 
 
+
     ) {
         Column(
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Box(
@@ -68,14 +77,14 @@ fun MyFirstClicker() {
                 contentAlignment = Alignment.Center,
 
             ) {
-                Text(text = "$clickable $", fontSize = 40.sp, color = Color.White)
+                Text(text = "${number.value} $", fontSize = 40.sp, color = Color.White)
             }
             Box(
                 modifier = Modifier
                     .background(Color.Red)
                     .fillMaxWidth()
                     .height(100.dp)
-                    .clickable{ clickable++},
+                    .clickable{number.value+= multiplier },
                 contentAlignment = Alignment.Center
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically,
@@ -98,6 +107,35 @@ fun MyFirstClicker() {
                         modifier = Modifier.size(40.dp)
                     )
                 }
+            }
+            Box(
+                modifier = Modifier
+                    .background(if (isBought) Color.Green else Color.Gray)
+                    .clickable {
+                        if (!isBought) {
+                            multiplier = 2
+                            isBought = true
+
+                        }
+                    }
+                    .width(60.dp)
+                    .height(60.dp)
+                ,
+
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+
+                )
+                {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                        ) {
+                    Text(text = "Upgrade multiplier to 2!")
+                }
+                }
+
             }
         }
     }
