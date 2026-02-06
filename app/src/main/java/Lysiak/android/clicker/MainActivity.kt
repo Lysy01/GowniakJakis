@@ -104,7 +104,7 @@ fun MyFirstClicker() {
                         imageVector = Icons.Default.Star,
                         contentDescription = "Money",
                         tint = Color.Yellow,
-                        modifier = Modifier.size(40.dp)
+                        modifier = Modifier.size(40.dp).padding(20.dp)
                     )
                 }
             }
