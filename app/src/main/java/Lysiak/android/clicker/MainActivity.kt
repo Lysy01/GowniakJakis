@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -50,9 +51,15 @@ class MainActivity : ComponentActivity() {
 }
 @Composable
 fun MyFirstClicker() {
-    var number: MutableState<Int> = remember { mutableStateOf(0) }
+    var number by remember { mutableStateOf(0) }
     var multiplier by remember { mutableStateOf(1) }
     var isBought by remember { mutableStateOf(false) }
+    val iconModifier = Modifier.size(50.dp).padding(4.dp)
+    val iconColor =
+        if(number in 0..10) Color.Yellow else
+            if (number in 11..50) Color.Blue else
+                if (number in 51..100) Color.Magenta else
+                    Color.Black
 
 
     Box(modifier = Modifier
@@ -77,14 +84,14 @@ fun MyFirstClicker() {
                 contentAlignment = Alignment.Center,
 
             ) {
-                Text(text = "${number.value} $", fontSize = 40.sp, color = Color.White)
+                Text(text = "$number$", fontSize = 40.sp, color = Color.White)
             }
             Box(
                 modifier = Modifier
                     .background(Color.Red)
                     .fillMaxWidth()
                     .height(100.dp)
-                    .clickable{number.value+= multiplier },
+                    .clickable{number+= multiplier },
                 contentAlignment = Alignment.Center
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically,
@@ -104,7 +111,7 @@ fun MyFirstClicker() {
                         imageVector = Icons.Default.Star,
                         contentDescription = "Money",
                         tint = Color.Yellow,
-                        modifier = Modifier.size(40.dp).padding(20.dp)
+                        modifier = Modifier.size(40.dp)
                     )
                 }
             }
@@ -118,8 +125,8 @@ fun MyFirstClicker() {
 
                         }
                     }
-                    .width(60.dp)
-                    .height(60.dp)
+                    .width(200.dp)
+                    .height(80.dp)
                 ,
 
             ) {
@@ -132,8 +139,25 @@ fun MyFirstClicker() {
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center,
                         ) {
-                    Text(text = "Upgrade multiplier to 2!")
+                    Text(
+                        text = "Upgrade multiplier to 2!",
+                        fontSize = 20.sp
+                    )
+                    }
+
                 }
+
+            }
+            Box() {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Icon(Icons.Outlined.Star, "star", modifier = iconModifier, tint = iconColor)
+                    Icon(Icons.Outlined.Star, "star2", modifier = iconModifier, tint = iconColor)
+                    Icon(Icons.Outlined.Star, "star3", modifier = iconModifier, tint = iconColor)
+                    Icon(Icons.Outlined.Star, "star4", modifier = iconModifier, tint = iconColor)
+                    Icon(Icons.Outlined.Star, "star5", modifier = iconModifier, tint = iconColor)
                 }
 
             }
